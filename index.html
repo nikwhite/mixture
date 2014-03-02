@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>mix.js</title>
+		<script src="mix.js"></script>
+		<script src="underscore-min.js"></script>
+	</head>
+	<body>
+		<script>
+			var Foo = {}, Bar = {};
+			
+			var mixable = function(state){
+				var a = 'a'
+				var _state = state;
+			
+				this.getA = function getA(){
+					return a;
+				};
+				this.setA = function setA(val){
+					a = val;
+				};
+				this.getState = function getState(){
+					return _state;
+				}
+				
+			};
+			
+			// Mix ( mixin object ) using ( default state data [options] ) into ( Module )
+			Foo = mix( mixable ).using( 1 ).into( Foo );
+			
+			Bar = mix( mixable ).using( 2 ).into( Bar );
+		</script>
+	</body>
+</html>
