@@ -44,7 +44,7 @@ function mix( ) {
 		 * @return {Object} context with mixins and state applied
 		 */
 		'into': function into( context ) {
-			context = context || {};
+			_mixins.push( context || {} );
 			
 			var combined = {};
 			
