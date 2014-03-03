@@ -3,19 +3,30 @@
  */
 (function(){
 	
-	function mix ( mixin ) {
+	function mix( ) {
 		
-		var _mixin = mixin || null;
+		var ArrProto = Array.prototype;
+		var _mixins = ArrProto.slice.call(arguments);
 		var _inheritable = null;
 		var _state = {};
 		
-		function applyMixin( context ){
-			
-			if ( typeof _mixin !== 'function' ) return false;
-			
-			mixinInstance = new _mixin(_state);
-			
-			return Object.create(mixinInstance);
+		/**
+		 * Extend implementation nabbed from underscore.js 1.6.0
+		 */
+		function extend( obj ) {
+			var sources = ArrProto.slice.call(arguments, 1);
+			sources.forEach( function(source) {
+		      if (source) {
+		        for (var prop in source) {
+		          obj[prop] = source[prop];
+		        }
+		      }
+		    });
+		    return obj;
+		}
+		
+		function applyMixin( context ) {
+
 			
 		}
 		
@@ -32,16 +43,6 @@
 				return this;
 			},
 			
-			/**
-			 * Inherit an object's methods and properties 
-			 * @param {Object} object Inheritable object reference 
-			 */
-			'inherit': function inherit( object ){
-				
-				_inheritable = object;
-				
-				return this;
-			},
 			
 			/**
 			 * Apply mixin and state to a reference object
@@ -49,24 +50,16 @@
 			 * @return {Object} context with mixins and state applied
 			 */
 			'into': function into( context ) {
+							
+				var combined = {};
 				
-				return applyMixin( context );
-			},
-			
-			/**
-			 * Make a mixin using the prototype of the object passed to inherit()
-			 * and state info passed to using()
-			 * @param {Object} mixinToMake
-			 */
-			'make': function make( mixinToMake ) {
+				_mixins.forEach(function(mixin){
+					extend( combined, new mixin(_state) );		
+				});
 				
-				_mixin = mixinTomake;
-				
-				var newObject = _inheritable ? Object.create(_inheritable) : {};
-				
-				return applyMixin( newObject );
-			
+				return Object.create(combined);
 			}
+			
 		};
 	}
 	
