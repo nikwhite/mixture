@@ -1,12 +1,12 @@
 /**
- * nanoMix
+ * Mixture object composition library
  */
 (function(){
 	
 	function mix( ) {
 		
-		var ArrProto = Array.prototype;
-		var _mixins = ArrProto.slice.call(arguments);
+		var _slice = Array.prototype.slice;
+		var _mixins = _slice.call(arguments);
 		var _inheritable = null;
 		var _state = {};
 		
@@ -14,20 +14,15 @@
 		 * Extend implementation nabbed from underscore.js 1.6.0
 		 */
 		function extend( obj ) {
-			var sources = ArrProto.slice.call(arguments, 1);
+			var sources = _slice.call(arguments, 1);
 			sources.forEach( function(source) {
-		      if (source) {
-		        for (var prop in source) {
-		          obj[prop] = source[prop];
-		        }
-		      }
-		    });
-		    return obj;
-		}
-		
-		function applyMixin( context ) {
-
-			
+				if (source) {
+					for (var prop in source) {
+						obj[prop] = source[prop];
+					}
+				}
+			});
+			return obj;
 		}
 		
 		return {
@@ -38,7 +33,7 @@
 			 */
 			'using' : function using( state ) {
 				
-				_state = state;
+				_state = state ;
 				
 				return this;
 			},
@@ -50,11 +45,12 @@
 			 * @return {Object} context with mixins and state applied
 			 */
 			'into': function into( context ) {
-							
+				context = context || {};
+				
 				var combined = {};
 				
 				_mixins.forEach(function(mixin){
-					extend( combined, new mixin(_state) );		
+					extend( combined, typeof mixin === 'function' ? new mixin(_state) : mixin );		
 				});
 				
 				return Object.create(combined);
