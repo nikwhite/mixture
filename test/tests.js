@@ -81,5 +81,10 @@ test( 'mix module into object', function(){
 	strictEqual( mod.id, 'id', 'object properties retained');
 });
 
+test( 'mix object into module', function(){
+	var mod = mix({id:'id'}).using().into(moduleA);
+	strictEqual( mod.getA(), 'a', 'moduleA private members retained' );
+	strictEqual( mod.id, 'id', 'object properties retained');
+});
 
 
