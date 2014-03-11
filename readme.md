@@ -62,35 +62,41 @@ var moduleC = mix( moduleA, moduleB )
 
 console.log( moduleC.getA() ); // 'a'
 console.log( moduleC.getB() ); // 'b'
-console.log( moduleC.getState() ); // 'bar'
+console.log( moduleC.getState() ); // 'bar' - last-in
 ```
 
-### Composing modules and objects
+### Composing modules into a constructor
 
 ```javascript
-function moduleA(){
-	var currentChar = 'a';
+function ModuleA(injectedState) {
+	// private members
+	var a = injectedState.a;
 	
-	this.getChar = function getA(){
-		return currentChar;
+	// public members
+	this.getA = function getA() {
+		return a;
 	}
 }
 
-var charUtils = {
-	nextChar: function nextChar() {
-		return String.fromCharCode(this.charCodeAt(0) + 1);
+function ModuleB(injectedState) {
+	
+	mix( moduleA )
+		.using( injectedState )
+		.into( this )
+	
+	// private members
+	var a = injectedState.b;
+	
+	// public members
+	this.getB = function getA() {
+		return a;
 	}
 }
 
-var characters = mix( moduleA, charUtils )
-                .into( { } );
+var instanceB = new ModuleB( {a: 'a', b: 'b'} );
+		     
 
-// or
-
-var characters = mix( moduleA )
-                .into( utils );
-                   
-characters.getChar(); // 'a';
-characters.nextChar.call( characters.getChar() ); // 'b';
+console.log( instanceB.getA() ); // 'a'
+console.log( instanceB.getB() ); // 'b'
 ```
 
