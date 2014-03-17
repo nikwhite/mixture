@@ -76,7 +76,7 @@ function ToggleGroup(options) {
 			active = undefined;
 		}
 		
-		emit('toggle', toggle);
+		toggle && emit('toggle', toggle);
 	}
 	
 	function findToggle($target) {
