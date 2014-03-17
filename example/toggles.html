@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Toggle mixtures</title>
+		<script src="http://zeptojs.com/zepto.min.js"></script>
+		<script src="../mixture.js"></script>
+		<script src="js/behavior/event-emitter.js"></script>
+		<script src="js/behavior/toggle.js"></script>
+		<script src="js/control/toggle-group.js"></script>
+		<script>
+			
+		</script>
+		<style>
+			.active { color: red }
+		</style>
+	</head>
+	<body>
+		<div id="togglables">
+			<a href="#">Toggle</a>
+			<a href="#">Toggle</a>
+			<a href="#">Toggle</a>
+			<a href="#">Toggle</a>
+			<a href="#">Toggle</a>
+		</div>
+		<script>
+			$(function(){
+				var toggleid = 'togglables';
+				var toggleselector = 'a';
+				var $root = $('#' + toggleid);
+				var $toggles = $root.find(toggleselector);
+				var toggles = [ ];
+				
+				$toggles.each(function(){
+					toggles.push( new Toggle({ toggleElement: this }) );
+				});
+				
+				var group = new ToggleGroup({
+					toggles: toggles,
+					toggleGroupId: toggleid,
+					toggleSelector: toggleselector,
+					mutuallyExclusive: false
+				});
+				
+				group.on('toggle', function(data){
+					//debugger;
+				});
+			});
+		</script>
+	</body>
+</html>
