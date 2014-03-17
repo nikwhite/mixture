@@ -1,4 +1,0 @@
-
-var Display = function (options) {
-	
-}

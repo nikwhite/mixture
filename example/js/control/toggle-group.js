@@ -90,6 +90,15 @@ function ToggleGroup(options) {
 		return ret;
 	}
 	
-	$root.on('click', options.toggleSelector, toggleHandler)
+	// Initialization
+	$root.on('click', options.toggleSelector, toggleHandler);
+	
+	if ( mutuallyExclusive ) {
+		toggles.forEach(function(toggle){
+			if ( toggle.isActive() ){
+				active = toggle;
+			}
+		});
+	}
 }
 

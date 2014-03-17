@@ -6,7 +6,7 @@ var Toggle = function (options) {
 	// private members
 	var $element = $(options.toggleElement);
 	var activeClass = options.activeClass || 'active';
-	var active = options.isActive || false;
+	var active = $element.hasClass(activeClass);
 	var id = TOGGLEID++;
 	
 	// public api
