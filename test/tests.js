@@ -53,7 +53,7 @@ test( 'mixed module is an object', function(){
 test( 'properties and methods added to prototype', function(){
 	var A = new moduleA();
 	ok( !moduleC.hasOwnProperty(A.getA), 'methods not on object instance' );
-	strictEqual( Object.getPrototypeOf(moduleC).getA(), A.getA(), 'methods added to prototype');
+	strictEqual( moduleC.getA(), A.getA(), 'methods added to prototype');
 });
 
 test( 'private members', function(){
@@ -81,10 +81,13 @@ test( 'mix module into object', function(){
 	strictEqual( mod.id, 'id', 'object properties retained');
 });
 
-test( 'mix object into module', function(){
-	var mod = mix({id:'id'}).using().into(moduleA);
-	strictEqual( mod.getA(), 'a', 'moduleA private members retained' );
-	strictEqual( mod.id, 'id', 'object properties retained');
+test( 'mix module into constructor', function(){
+	var NewModule = function(){
+		mix(moduleA).into(this);
+	}
+	var instance = new NewModule();
+	ok( instance.getA, 'mixed module methods applied to instance of a constructor');
 });
+
 
 
