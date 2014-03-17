@@ -1,6 +1,10 @@
 
 var TOGGLEID = 0;
 
+/**
+ * @constructor Toggle - Any element which can toggle between 2 states is a toggle
+ * @param {Object} options implements toggleElement, activeClass
+ */
 var Toggle = function (options) {
 	
 	// private members

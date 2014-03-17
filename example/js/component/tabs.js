@@ -1,12 +1,17 @@
 
 var Tabs = function (options) {
-	if ( !options.tabId ) return;
+	
+	// Bail out when required options not supplied
+	// Really, we should throw errors using a common error module
+	if ( !options.tabId ) return; 
+	
+	// Private members -------------------------------------
 	
 	//options
 	var rootId = options.tabId;
 	var tabSelector = options.tabSelector || 'a';
 	var panelSelector = options.panelSelector || '.contentpanel';
-	var mutuallyExclusive = options.mutuallyExclusive
+	var mutuallyExclusive = options.mutuallyExclusive;
 	
 	// elements
 	var $root = $('#' + rootId);
@@ -14,39 +19,38 @@ var Tabs = function (options) {
 	var $panels = $root.find(panelSelector);
 	
 	// interfaces
-	var toggles = [ ];
+	var tabs = [ ];
 	var panels = [ ];
 	
+	// Initialization -------------------------------------
 	
-	function onTabSelect(toggle) {
-		if (!toggle) return;
-		var index = toggles.indexOf(toggle);
-		if ( toggle.isActive() ){
-			panels[index].toggle(true);
-		} else {
-			panels[index].toggle(false);
-		}
-	}
-	
-	// Initialization
+	// Tabs are toggles
 	$tabs.each( function(){
-		toggles.push( new Toggle({ toggleElement: this }) );
+		tabs.push( new Toggle({ toggleElement: this }) );
 	});
 	
+	// Panels are just toggles in disguise
 	$panels.each( function(){
 		panels.push( new Toggle({ toggleElement: this }) );
 	});
 	
+	// We should start including things like this... to be helpful for developers
 	if ( $panels.length !== $tabs.length ) {
 		console.warn('Tabs should be created with the same amount of tabs as content panels. Tabs: %d, Panels: %d', $tabs.length, $panels.length)
 	}
 	
+	// Hook up the tabs as a toggle group
 	var group = new ToggleGroup({
-		toggles: toggles,
+		toggles: tabs,
 		toggleGroupId: rootId,
 		toggleSelector: tabSelector,
 		mutuallyExclusive: mutuallyExclusive
 	});
 	
-	group.on('toggle', onTabSelect);
+	// Toggle group is an event emitter, whenever a toggle happens, 
+	// it passes the toggle control to the event listener
+	group.on('toggle', function(toggle){
+		// panel behavior depends on tab active state and mirrors it
+		panels[ tabs.indexOf(toggle) ].toggle( toggle.isActive() );
+	});
 }
