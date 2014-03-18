@@ -20,7 +20,7 @@ function ToggleGroup(options) {
 	var active = false;
 	
 	// local alias for emitting events
-	var emit = this.emit.bind(this); 
+	var emit = this.emitEvent.bind(this); 
 	
 	function toggleHandler(event) {
 		event.preventDefault();
@@ -72,7 +72,7 @@ function ToggleGroup(options) {
 			active = toggle;
 		}
 		
-		emit('toggle', toggle);
+		emit('toggle', [toggle]);
 	}
 	
 	
@@ -88,7 +88,7 @@ function ToggleGroup(options) {
 			active = undefined;
 		}
 		
-		toggle && emit('toggle', toggle);
+		toggle && emit('toggle', [toggle]);
 	}
 	
 	// Find the toggle control based on its toggle-id attribute

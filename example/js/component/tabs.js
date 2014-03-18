@@ -40,17 +40,18 @@ var Tabs = function (options) {
 	}
 	
 	// Hook up the tabs as a toggle group
-	var group = new ToggleGroup({
+	mix( ToggleGroup ).using({
 		toggles: tabs,
 		toggleGroupId: rootId,
 		toggleSelector: tabSelector,
 		mutuallyExclusive: mutuallyExclusive
-	});
+	}).into(this);
 	
 	// Toggle group is an event emitter, whenever a toggle happens, 
 	// it passes the toggle control to the event listener
-	group.on('toggle', function(toggle){
+	this.addListener('toggle', function(toggle){
 		// panel behavior depends on tab active state and mirrors it
 		panels[ tabs.indexOf(toggle) ].toggle( toggle.isActive() );
 	});
+	debugger;
 }
