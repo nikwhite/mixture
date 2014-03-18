@@ -1,6 +1,7 @@
 /*!
  * EventEmitter v4.2.7 - git.io/ee
  * Oliver Caldwell
+ * modified by Nik White
  * MIT license
  * @preserve
  */
@@ -34,7 +35,15 @@ var EventEmitter = function () {
 
 		return -1;
 	}
-
+	/**
+	 * Fetches the events object and creates one if required.
+	 *
+	 * @return {Object} The events storage object.
+	 * @api private
+	 */
+	function getEvents() {
+		return _events;
+	};
 	/**
 	 * Returns the listener array for the specified event.
 	 * Will initialise the event object and listener arrays if required.
@@ -44,8 +53,8 @@ var EventEmitter = function () {
 	 * @param {String|RegExp} evt Name of the event to return the listeners from.
 	 * @return {Function[]|Object} All listener functions for the event.
 	 */
-	this.getListeners = function getListeners(evt) {
-		var events = this._getEvents();
+	function getListeners(evt) {
+		var events = getEvents();
 		var response;
 		var key;
 
@@ -72,7 +81,7 @@ var EventEmitter = function () {
 	 * @param {Object[]} listeners Raw listener objects.
 	 * @return {Function[]} Just the listener functions.
 	 */
-	this.flattenListeners = function flattenListeners(listeners) {
+	function flattenListeners(listeners) {
 		var flatListeners = [];
 		var i;
 
@@ -89,8 +98,8 @@ var EventEmitter = function () {
 	 * @param {String|RegExp} evt Name of the event to return the listeners from.
 	 * @return {Object} All listener functions for an event in an object.
 	 */
-	this.getListenersAsObject = function getListenersAsObject(evt) {
-		var listeners = this.getListeners(evt);
+	function getListenersAsObject(evt) {
+		var listeners = getListeners(evt);
 		var response;
 
 		if (listeners instanceof Array) {
@@ -112,7 +121,7 @@ var EventEmitter = function () {
 	 * @return {Object} Current instance of EventEmitter for chaining.
 	 */
 	this.addListener = function addListener(evt, listener) {
-		var listeners = this.getListenersAsObject(evt);
+		var listeners = getListenersAsObject(evt);
 		var listenerIsWrapped = typeof listener === 'object';
 		var key;
 
@@ -153,7 +162,7 @@ var EventEmitter = function () {
 	 * @return {Object} Current instance of EventEmitter for chaining.
 	 */
 	this.removeListener = function removeListener(evt, listener) {
-		var listeners = this.getListenersAsObject(evt);
+		var listeners = getListenersAsObject(evt);
 		var index;
 		var key;
 
@@ -257,7 +266,7 @@ var EventEmitter = function () {
 	 */
 	this.removeEvent = function removeEvent(evt) {
 		var type = typeof evt;
-		var events = this._getEvents();
+		var events = getEvents();
 		var key;
 
 		// Remove different things depending on the state of evt
@@ -294,7 +303,7 @@ var EventEmitter = function () {
 	 * @return {Object} Current instance of EventEmitter for chaining.
 	 */
 	this.emitEvent = function emitEvent(evt, args) {
-		var listeners = this.getListenersAsObject(evt);
+		var listeners = getListenersAsObject(evt);
 		var listener;
 		var i;
 		var key;
@@ -356,14 +365,6 @@ var EventEmitter = function () {
 		}
 	};
 
-	/**
-	 * Fetches the events object and creates one if required.
-	 *
-	 * @return {Object} The events storage object.
-	 * @api private
-	 */
-	this._getEvents = function _getEvents() {
-		return _events;
-	};
+
 
 }
