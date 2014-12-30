@@ -2,7 +2,7 @@
  * Mixture object composition library
  */
 
-function mix( ) {
+module.exports = function mix( ) {
 	
 	var _slice = Array.prototype.slice;
 	var _mixins = _slice.call(arguments);
@@ -45,7 +45,6 @@ function mix( ) {
 		 */
 		'into': function into( context ) {
 			
-			
 			var combined = {};
 			
 			_mixins.forEach(function(mixin){
@@ -56,4 +55,4 @@ function mix( ) {
 		}
 		
 	};
-}
+};
