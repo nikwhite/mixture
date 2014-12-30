@@ -1,0 +1,27 @@
+{
+  "name": "object-mix",
+  "version": "1.0.0",
+  "description": "A lightweight object composition utility",
+  "main": "mixture.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nikwhite/mixture.git"
+  },
+  "keywords": [
+    "object",
+    "composition",
+    "mixin"
+  ],
+  "author": "Nik White <underscore.nik@gmail.com> (http://nikwhite.io)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nikwhite/mixture/issues"
+  },
+  "homepage": "https://github.com/nikwhite/mixture"
+}
